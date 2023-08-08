@@ -1,30 +1,28 @@
 package com.library.stepDefinitions;
 
-import io.cucumber.java.Scenario;
-import org.junit.After;
-import org.junit.Before;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import com.library.utilities.ConfigurationReader;
 import com.library.utilities.DB_Util;
 import com.library.utilities.Driver;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 import java.util.concurrent.TimeUnit;
 
 public class Hooks {
 
-    @Before
+    @Before("@ui")
     public void setUp(){
-
         System.out.println("this is coming from BEFORE");
         Driver.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         Driver.getDriver().manage().window().maximize();
         Driver.getDriver().get(ConfigurationReader.getProperty("library_url"));
 
-
     }
 
-    @After
+    @After("@ui")
     public void tearDown(Scenario scenario){
         System.out.println("this is coming from AFTER");
 
@@ -37,15 +35,23 @@ public class Hooks {
 
     }
 
-    @Before()
+
+    @Before("@db")
     public void setupDB(){
-        System.out.println("Connecting to database...");
         DB_Util.createConnection();
+        System.out.println("connecting to database.....");
+
     }
 
-    @After()
-    public void closeDB(){
-        System.out.println("Closing DB connection...");
+    @After("@db")
+    public void destroyDB(){
         DB_Util.destroy();
+        System.out.println("closing connection....");
+
     }
+
+
+
+
+
 }
