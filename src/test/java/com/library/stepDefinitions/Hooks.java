@@ -8,7 +8,6 @@ import org.openqa.selenium.TakesScreenshot;
 import com.library.utilities.ConfigurationReader;
 import com.library.utilities.DB_Util;
 import com.library.utilities.Driver;
-
 import java.util.concurrent.TimeUnit;
 
 public class Hooks {
@@ -37,13 +36,13 @@ public class Hooks {
 
     }
 
-    @Before()
+    @Before
     public void setupDB(){
         System.out.println("Connecting to database...");
         DB_Util.createConnection();
     }
 
-    @After()
+    @After
     public void closeDB(){
         System.out.println("Closing DB connection...");
         DB_Util.destroy();
